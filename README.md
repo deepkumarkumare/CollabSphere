@@ -18,17 +18,6 @@ This is a Next.js **Social Media Application** built with React, Redux, ShadCN a
 - Form handling and validation using Formik and Yup
 - Icons and UI components from ShadCN & Lucid UI
 
-## Folder Structure
-
-The project is organized in a modular structure, with separate folders for:
-
-- `src`: contains the application code
-- `app`: contains the main application components
-- `assets`: contains static assets such as images and logos
-- `components`: contains reusable UI components
-- `hooks`: contains custom hooks for toast notifications
-- `lib`: contains Redux code and some other utilities
-
 ## Local Development
 
 To run the project locally:
