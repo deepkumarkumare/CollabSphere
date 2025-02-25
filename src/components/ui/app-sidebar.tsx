@@ -275,7 +275,7 @@ const data = {
       url: "/match",
       icon: File,
       component: <Matchsidebar />,
-      extraRoutes: ["/search"], // Add any additional routes that should show Matchsidebar
+      extraRoutes: ["/search-profiles"], // Add any additional routes that should show Matchsidebar
     },
     {
       title: "Community",
