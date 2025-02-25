@@ -4,6 +4,10 @@
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 
+// import { useEffect } from 'react';
+
+
+
 export default function Profile() {
   const { user, isLoaded } = useUser();
   const [profile, setProfile] = useState<any>(null);
@@ -27,7 +31,22 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const syncUser = async () => {
+    try {
+      const response = await fetch('/api/auth/syncUser', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      console.log('User Synced:', data);
+    } catch (error) {
+      console.error('Error syncing user:', error);
+    }
+  };
+
   useEffect(() => {
+
+    syncUser();
+
     const fetchProfile = async () => {
       if (!user || !isLoaded) return;
       try {
