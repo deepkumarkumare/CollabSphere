@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import Biosidebar from "../components/sidebarcomp/biosidebar"
 import Threadsidebar from "../components/sidebarcomp/threadsidebar"
+import Communitysidebar from "../components/sidebarcomp/communitysidebar"
 import { ModeToggle } from "./dark-toggle"
 import {
   ClerkProvider,
@@ -22,11 +23,12 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarHeader,
+  SidebarHeader, 
   SidebarInput,
   SidebarMenu,
+  SidebarTrigger,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem, 
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Switch } from "@/components/ui/switch"
@@ -64,7 +66,7 @@ const data = {
       url: "/community",
       icon: Send,
       isActive: false,
-      component: <CommunityComponent />,
+      component: <Communitysidebar></Communitysidebar>,
     },
     {
       title: "Bio",
@@ -119,8 +121,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
                 <a href="#">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <Command className="size-4" />
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#A8A8A8] text-sidebar-primary-foreground">
+                    <Command className="size-4 stroke-black" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">Acme Inc</span>
@@ -168,9 +170,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
+          <div className="gap-3 flex flex-col justify-center items-center w-full">
+        <SidebarTrigger className="" />
           <ModeToggle></ModeToggle>
           <UserButton />
-          
+          </div>
         </SidebarFooter>
       </Sidebar>
 
@@ -182,12 +186,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="text-base font-medium text-foreground">
               {activeItem.title}
             </div>
-            <Label className="flex items-center gap-2 text-sm">
+            {/* <Label className="flex items-center gap-2 text-sm">
               <span>Unreads</span>
               <Switch className="shadow-none" />
-            </Label>
+            </Label> */}
           </div>
-          <SidebarInput placeholder="Type to search..." />
+          {/* <SidebarInput placeholder="Type to search..." /> */}
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup className="px-0">

@@ -52,46 +52,10 @@ export const Feature6 = () => {
           </div>
           </Link>
           ))}
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            {/* <h3 className="text-xl tracking-tight">Pay supplier invoices</h3> */}
-            <p className="text-muted-foreground text-base">
-              Our goal is to streamline SMB trade, making it easier and faster
-              than ever.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            {/* <h3 className="text-xl tracking-tight">Pay supplier invoices</h3> */}
-            <p className="text-muted-foreground text-base">
-              Our goal is to streamline SMB trade, making it easier and faster
-              than ever.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            {/* <h3 className="text-xl tracking-tight">Pay supplier invoices</h3> */}
-            <p className="text-muted-foreground text-base">
-              Our goal is to streamline SMB trade, making it easier and faster
-              than ever.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            {/* <h3 className="text-xl tracking-tight">Pay supplier invoices</h3> */}
-            <p className="text-muted-foreground text-base">
-              Our goal is to streamline SMB trade, making it easier and faster
-              than ever.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            {/* <h3 className="text-xl tracking-tight">Pay supplier invoices</h3> */}
-            <p className="text-muted-foreground text-base">
-              Our goal is to streamline SMB trade, making it easier and faster
-              than ever.
-            </p>
-          </div>
+          
+         
+         
+          
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 // app/profile/page.tsx
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 
@@ -91,12 +94,12 @@ export default function Profile() {
       {/* ... Previous sections remain the same ... */}
 
       {/* Social Links Section */}
-      <section className="mb-6">
+      <Card className="mb-6 p-5">
         <h2 className="text-xl mb-2">Social Links</h2>
         <div className="grid gap-4">
           <div>
             <label className="block mb-1">GitHub</label>
-            <input
+            <Input
               value={socialLinks.github}
               onChange={(e) => setSocialLinks({ ...socialLinks, github: e.target.value })}
               placeholder="GitHub URL"
@@ -106,7 +109,7 @@ export default function Profile() {
           </div>
           <div>
             <label className="block mb-1">Email</label>
-            <input
+            <Input
               value={socialLinks.email}
               onChange={(e) => setSocialLinks({ ...socialLinks, email: e.target.value })}
               placeholder="Email address"
@@ -116,7 +119,7 @@ export default function Profile() {
           </div>
           <div>
             <label className="block mb-1">LinkedIn</label>
-            <input
+            <Input
               value={socialLinks.linkedin}
               onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
               placeholder="LinkedIn URL"
@@ -126,7 +129,7 @@ export default function Profile() {
           </div>
           <div>
             <label className="block mb-1">Phone</label>
-            <input
+            <Input
               value={socialLinks.phone}
               onChange={(e) => setSocialLinks({ ...socialLinks, phone: e.target.value })}
               placeholder="Phone number"
@@ -136,7 +139,7 @@ export default function Profile() {
           </div>
           <div>
             <label className="block mb-1">Location</label>
-            <input
+            <Input
               value={socialLinks.location}
               onChange={(e) => setSocialLinks({ ...socialLinks, location: e.target.value })}
               placeholder="City, Country"
@@ -144,15 +147,15 @@ export default function Profile() {
               disabled={loading}
             />
           </div>
-          <button
+          <Button
             onClick={updateSocialLinks}
             className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-400"
             disabled={loading}
           >
             Update Social Links
-          </button>
+          </Button>
         </div>
-      </section>
+      </Card>
 
       {/* ... Rest of the sections remain the same ... */}
     </div>

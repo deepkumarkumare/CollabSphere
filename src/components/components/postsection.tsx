@@ -22,7 +22,7 @@ export const Feature5 = () => {
   <div className="w-[100%] my-20">
     <div className="container mx-auto">
       <div className="flex flex-col gap-10">
-        <div className="flex gap-4 flex-col items-start">
+        <div className="flex gap-4 flex-col items-start"> 
           <div>
             <Badge>Moments</Badge>
           </div>
