@@ -1,4 +1,3 @@
-
 // app/profile-details/[userId]/page.tsx
 'use client';
 
@@ -36,8 +35,13 @@ export default function ProfileDetails() {
         const data = await res.json();
         setProfile(data);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setError(err instanceof Error ? err.message : 'An error occurred');
+        // Type guard to narrow 'err' from 'unknown' to 'Error'
+        if (err instanceof Error) {
+          if (err.name !== 'AbortError') {
+            setError(err.message);
+          }
+        } else {
+          setError('An unexpected error occurred');
         }
       } finally {
         setLoading(false);
@@ -48,149 +52,204 @@ export default function ProfileDetails() {
     return () => controller.abort();
   }, [userId, authLoaded]);
 
-  if (!authLoaded) return <div>Loading...</div>;
-  if (!isSignedIn) return <div>Please sign in to view profiles</div>;
-  if (loading) return <div>Loading profile details...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (!authLoaded) return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="text-gray-600 dark:text-gray-300 text-lg">Loading...</div>
+    </div>
+  );
+  if (!isSignedIn) return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="text-gray-600 dark:text-gray-300 text-lg">Please sign in to view profiles</div>
+    </div>
+  );
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="text-gray-600 dark:text-gray-300 text-lg">Loading profile details...</div>
+    </div>
+  );
+  if (error) return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="text-red-500 dark:text-red-400 text-lg">{error}</div>
+    </div>
+  );
 
   const displayName = profile?.socialLinks?.email || profile?.userId;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Profile Details: {displayName}</h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12">
+      <div className="container mx-auto max-w-4xl px-6">
+        <div className="mb-8">
+          {profile?.image && (
+            <div className="w-full h-64 relative overflow-hidden rounded-2xl shadow-lg">
+              <img
+                src={profile.image}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-6 text-center">
+            {displayName}
+          </h1>
+        </div>
 
-      {/* Profile Image */}
-      {profile?.image && (
-        <img src={profile.image} alt="Profile" className="w-32 h-32 rounded-full mb-4" />
-      )}
-
-      {/* Skills */}
-      <section className="mb-6">
-        <h2 className="text-xl mb-2 text-green-600">Skills</h2>
-        {profile?.skills?.length > 0 ? (
-          <ul className="list-disc pl-5">
-            {profile.skills.map((skill: any) => (
-              <li key={skill._id}>{skill.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No skills listed</p>
-        )}
-      </section>
-
-      {/* Interests */}
-      <section className="mb-6">
-        <h2 className="text-xl mb-2 text-green-600">Interests</h2>
-        {profile?.interests?.length > 0 ? (
-          <ul className="list-disc pl-5">
-            {profile.interests.map((interest: any) => (
-              <li key={interest._id}>{interest.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No interests listed</p>
-        )}
-      </section>
-
-      {/* Posts */}
-      <section className="mb-6">
-        <h2 className="text-xl mb-2 text-green-600">Posts</h2>
-        {profile?.posts?.length > 0 ? (
-          <div className="grid gap-4">
-            {profile.posts.map((post: any) => (
-              <div key={post._id} className="border p-4 rounded bg-gray-50">
-                <p>{post.content}</p>
-                {post.image && <img src={post.image} alt="Post" className="w-24 h-24 mt-2" />}
-                <p className="text-sm text-gray-500">
-                  Posted on: {new Date(post.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No posts listed</p>
-        )}
-      </section>
-
-      {/* Projects */}
-      <section className="mb-6">
-        <h2 className="text-xl mb-2 text-green-600">Projects</h2>
-        {profile?.projects?.length > 0 ? (
-          <div className="grid gap-4">
-            {profile.projects.map((project: any) => (
-              <div key={project._id} className="border p-4 rounded bg-gray-50">
-                <h3 className="font-bold">{project.title}</h3>
-                <p>{project.description}</p>
-                {project.projectLink && (
-                  <a
-                    href={project.projectLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Skills</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            {profile?.skills?.length > 0 ? (
+              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {profile.skills.map((skill: any) => (
+                  <li
+                    key={skill._id}
+                    className="text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-colors duration-200"
                   >
-                    Project Link
-                  </a>
+                    {skill.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">No skills listed</p>
+            )}
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Interests</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            {profile?.interests?.length > 0 ? (
+              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {profile.interests.map((interest: any) => (
+                  <li
+                    key={interest._id}
+                    className="text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-colors duration-200"
+                  >
+                    {interest.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">No interests listed</p>
+            )}
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Posts</h2>
+          {profile?.posts?.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {profile.posts.map((post: any) => (
+                <div key={post._id} className="space-y-3">
+                  {post.image && (
+                    <img
+                      src={post.image}
+                      alt="Post"
+                      className="w-full h-48 rounded-lg object-cover shadow-md"
+                    />
+                  )}
+                  <p className="text-gray-700 dark:text-gray-300">{post.content}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400">No posts listed</p>
+          )}
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Projects</h2>
+          {profile?.projects?.length > 0 ? (
+            <div className="space-y-6">
+              {profile.projects.map((project: any) => (
+                <div
+                  key={project._id}
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 space-y-3"
+                >
+                  <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">
+                    {project.title}
+                  </h3>
+                  {project.image && (
+                    <div className="w-full h-48 relative overflow-hidden rounded-lg">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <p className="text-gray-700 dark:text-gray-300">{project.description}</p>
+                  {project.projectLink && (
+                    <a
+                      href={project.projectLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-500 dark:text-indigo-400 hover:underline font-medium"
+                    >
+                      View Project
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400">No projects listed</p>
+          )}
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Social Links</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            {profile?.socialLinks ? (
+              <div className="space-y-3">
+                {profile.socialLinks.github && (
+                  <p className="text-gray-700 dark:text-gray-300">
+                    GitHub:{' '}
+                    <a
+                      href={profile.socialLinks.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-500 dark:text-indigo-400 hover:underline"
+                    >
+                      {profile.socialLinks.github}
+                    </a>
+                  </p>
                 )}
-                {project.image && (
-                  <img src={project.image} alt={project.title} className="w-24 h-24 mt-2" />
+                {profile.socialLinks.email && (
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Email:{' '}
+                    <a
+                      href={`mailto:${profile.socialLinks.email}`}
+                      className="text-indigo-500 dark:text-indigo-400 hover:underline"
+                    >
+                      {profile.socialLinks.email}
+                    </a>
+                  </p>
+                )}
+                {profile.socialLinks.linkedin && (
+                  <p className="text-gray-700 dark:text-gray-300">
+                    LinkedIn:{' '}
+                    <a
+                      href={profile.socialLinks.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-500 dark:text-indigo-400 hover:underline"
+                    >
+                      {profile.socialLinks.linkedin}
+                    </a>
+                  </p>
+                )}
+                {profile.socialLinks.phone && (
+                  <p className="text-gray-700 dark:text-gray-300">Phone: {profile.socialLinks.phone}</p>
+                )}
+                {profile.socialLinks.location && (
+                  <p className="text-gray-700 dark:text-gray-300">Location: {profile.socialLinks.location}</p>
                 )}
               </div>
-            ))}
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">No social links provided</p>
+            )}
           </div>
-        ) : (
-          <p>No projects listed</p>
-        )}
-      </section>
-
-      {/* Social Links */}
-      <section className="mb-6">
-        <h2 className="text-xl mb-2 text-green-600">Social Links</h2>
-        {profile?.socialLinks ? (
-          <div className="grid gap-2">
-            {profile.socialLinks.github && (
-              <p>
-                GitHub:{' '}
-                <a
-                  href={profile.socialLinks.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  {profile.socialLinks.github}
-                </a>
-              </p>
-            )}
-            {profile.socialLinks.email && (
-              <p>
-                Email:{' '}
-                <a
-                  href={`mailto:${profile.socialLinks.email}`}
-                  className="text-blue-500 hover:underline"
-                >
-                  {profile.socialLinks.email}
-                </a>
-              </p>
-            )}
-            {profile.socialLinks.linkedin && (
-              <p>
-                LinkedIn:{' '}
-                <a
-                  href={profile.socialLinks.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  {profile.socialLinks.linkedin}
-                </a>
-              </p>
-            )}
-            {profile.socialLinks.phone && <p>Phone: {profile.socialLinks.phone}</p>}
-            {profile.socialLinks.location && <p>Location: {profile.socialLinks.location}</p>}
-          </div>
-        ) : (
-          <p>No social links provided</p>
-        )}
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
