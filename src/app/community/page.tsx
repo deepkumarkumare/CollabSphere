@@ -5,6 +5,7 @@ import { ChatWindow } from '@/components/ChatWindow';
 import { UserList } from '@/components/UserList';
 import { User } from '@/types';
 import { useUser } from '@clerk/nextjs';
+import { Search, MessageSquare } from 'lucide-react';
 
 export default function ChatPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,10 +21,9 @@ export default function ChatPage() {
         const response = await fetch('/api/search-users');
         const data = await response.json();
         if (response.ok) {
-          // Filter out the current user
           const allUsers = data.filter((u: User) => u.id !== user?.id);
           setUsers(allUsers);
-          setFilteredUsers(allUsers); // Initially show all users
+          setFilteredUsers(allUsers);
         } else {
           console.error('Error fetching users:', data.error);
         }
@@ -37,7 +37,6 @@ export default function ChatPage() {
     if (user) fetchUsers();
   }, [user]);
 
-  // Filter users based on search query
   useEffect(() => {
     if (searchQuery.trim() === '') {
       setFilteredUsers(users);
@@ -46,36 +45,62 @@ export default function ChatPage() {
       const filtered = users.filter(
         (u) =>
           u.email.toLowerCase().includes(query) ||
-          u.name.toLowerCase().includes(query)
+          (u.name && u.name.toLowerCase().includes(query))
       );
       setFilteredUsers(filtered);
     }
   }, [searchQuery, users]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[calc(100vh-80px)]">
-      <div className="col-span-1 flex flex-col">
-        <div className="p-4">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search users by name or email..."
-            className="w-full p-2 border rounded"
-          />
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+      {/* Sidebar */}
+      <div className="w-80 bg-gray-50 dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 flex flex-col shadow-sm">
+        {/* Search Bar */}
+        <div className="sticky top-0 z-10 p-4 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search users..."
+              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all duration-200 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            />
+          </div>
         </div>
-        {loading ? (
-          <p className="p-4">Loading users...</p>
-        ) : (
-          <UserList users={filteredUsers} onSelectUser={setSelectedUser} />
-        )}
+
+        {/* User List */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-2">
+          {loading ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500 dark:border-indigo-400"></div>
+            </div>
+          ) : filteredUsers.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4 text-sm italic">
+              No users found
+            </p>
+          ) : (
+            <UserList
+              users={filteredUsers}
+              onSelectUser={setSelectedUser}
+              selectedUsers={selectedUser ? [selectedUser] : []}
+            />
+          )}
+        </div>
       </div>
-      <div className="col-span-3">
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
         {selectedUser ? (
           <ChatWindow selectedUser={selectedUser} />
         ) : (
-          <div className="h-full flex items-center justify-center border rounded">
-            <p className="text-gray-500">Select a user to start chatting</p>
+          <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="text-center space-y-4">
+              <MessageSquare className="w-20 h-20 text-gray-300 dark:text-gray-600 mx-auto" />
+              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+                Select a user to start chatting
+              </p>
+            </div>
           </div>
         )}
       </div>
