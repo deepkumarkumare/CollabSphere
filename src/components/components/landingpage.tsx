@@ -1,4 +1,7 @@
 import React from 'react'
+import { Header1 } from '../ui/header'
+import { Hero2 } from '../ui/hero'
+import { Feature2 } from '../ui/homefeature'
 import {
     ClerkProvider,
     SignInButton,
@@ -11,8 +14,10 @@ import {
 const Landingpage = () => {
   return (
     <div>
-      <SignInButton></SignInButton>
-      <SignUpButton></SignUpButton>
+      
+      <Header1></Header1>
+      <Hero2></Hero2>
+      <Feature2></Feature2>
     </div>
   )
 }

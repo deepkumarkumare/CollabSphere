@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  try {
+  try { 
     await dbConnect();
     let user = await UserModel.findOne({ clerkId: userId });
     

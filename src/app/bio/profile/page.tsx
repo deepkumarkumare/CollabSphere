@@ -2,6 +2,9 @@
 import React from 'react'
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 const page = () => {
 
@@ -167,100 +170,110 @@ const page = () => {
 
   return (
     <div>
-      <section className="mb-6">
+      <Card className="mb-6 p-4">
         <h2 className="text-xl mb-2">Profile Image</h2>
-        {profile?.image && <img src={profile.image} alt="Profile" className="w-32 h-32 mb-2" />}
-        <input
+        <div className=''>
+      {profile?.image && <Card
+  style={{
+    backgroundImage: `url(${profile.image})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}
+  className="h-36 mb-4"
+/>}</div>
+<div className='flex '>
+        <Input
           value={image}
           onChange={(e) => setImage(e.target.value)}
           placeholder="Image URL"
-          className="border p-2 mr-2"
-          disabled={loading}
+          className="border p-2 mr-4"
+          disabled={loading} 
         />
-        <button 
+        <Button 
           onClick={updateImage} 
-          className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-400"
+          className=" p-2 rounded disabled:bg-gray-400 px-4"
           disabled={loading}
         >
           Update Image
-        </button>
-      </section>
+        </Button></div>
+      </Card>
 
 
-      <section className="mb-6">
+      <Card className="mb-6 p-4">
         <h2 className="text-xl mb-2">Skills</h2>
         <div className="flex gap-2 mb-2">
-          <input
+          <Input
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
             placeholder="New skill"
             className="border p-2 flex-1"
             disabled={loading}
           />
-          <button 
+          <Button 
             onClick={addSkill} 
-            className="bg-green-500 text-white p-2 rounded disabled:bg-gray-400"
+            className="  p-2 rounded disabled:bg-gray-400"
             disabled={loading}
           >
             Add Skill
-          </button>
+          </Button>
         </div>
         {profile?.skills?.map((skill: any) => (
           <div key={skill._id} className="flex items-center gap-2 mb-2">
-            <input
+            <Input
               defaultValue={skill.name}
               onBlur={(e) => updateSkill(skill._id, e.target.value)}
               className="border p-1 flex-1"
               disabled={loading}
             />
-            <button
+            <Button variant="destructive"
               onClick={() => deleteSkill(skill._id)}
-              className="bg-red-500 text-white p-1 rounded disabled:bg-gray-400"
+              className=" p-2 px-4 rounded disabled:bg-gray-400"
               disabled={loading}
             >
               Delete
-            </button>
+            </Button>
           </div>
         ))}
-      </section>
+      </Card>
 
 
-      <section className="mb-6">
+      <Card className="mb-6 p-4">
         <h2 className="text-xl mb-2">Interests</h2>
         <div className="flex gap-2 mb-2">
-          <input
+          <Input
             value={newInterest}
             onChange={(e) => setNewInterest(e.target.value)}
             placeholder="New interest"
             className="border p-2 flex-1"
             disabled={loading}
           />
-          <button 
+          <Button  
             onClick={addInterest} 
-            className="bg-green-500 text-white p-2 rounded disabled:bg-gray-400"
+            className="  p-2 rounded disabled:bg-gray-400"
             disabled={loading}
           >
             Add Interest
-          </button>
+          </Button>
         </div>
         {profile?.interests?.map((interest: any) => (
           <div key={interest._id} className="flex items-center gap-2 mb-2">
-            <input
+            <Input
               defaultValue={interest.name}
               onBlur={(e) => updateInterest(interest._id, e.target.value)}
               className="border p-1 flex-1"
               disabled={loading}
             />
-            <button
+            <Button variant="destructive"
               onClick={() => deleteInterest(interest._id)}
-              className="bg-red-500 text-white p-1 rounded disabled:bg-gray-400"
+              className="  p-2 px-4 rounded disabled:bg-gray-400"
               disabled={loading}
             >
               Delete
-            </button>
+            </Button>
           </div>
         ))}
-      </section>
+      </Card>
     </div>
   )
 }

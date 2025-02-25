@@ -46,13 +46,7 @@ const Bio = () => {
               
             <Badge key={skill._id} variant="secondary"  className="px-5 py-1 text-lg">{skill.name}</Badge>
           ))}
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
+            
 
             </div>
             
@@ -66,13 +60,7 @@ const Bio = () => {
             {profile?.interests?.map((interest: any) => (
             <Badge key={interest._id} variant="secondary"  className="px-5 py-1 text-lg">{interest.name}</Badge>
           ))}
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
-            <Badge variant="secondary"  className="px-5 py-1 text-lg">Skills</Badge>
+        
 
             </div>
             
@@ -84,7 +72,7 @@ const Bio = () => {
       
       </Card>
       <Card>
-    <div className=''>
+    <div className=''> 
       <Feature6 ></Feature6>
       </div>
       

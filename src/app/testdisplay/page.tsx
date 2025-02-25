@@ -4,6 +4,10 @@
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 
+// import { useEffect } from 'react';
+
+
+
 export default function Profile() {
   const { user, isLoaded } = useUser();
   const [profile, setProfile] = useState<any>(null);
@@ -19,38 +23,71 @@ export default function Profile() {
   });
   const [socialLinks, setSocialLinks] = useState({
     github: '',
-    email: '',
     linkedin: '',
     phone: '',
     location: ''
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const syncUser = async () => {
+    try {
+      const response = await fetch('/api/auth/syncUser', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      console.log('User Synced:', data);
+    } catch (error) {
+      console.error('Error syncing user:', error);
+    }
+  };
+
   useEffect(() => {
+
+    syncUser();
+
     const fetchProfile = async () => {
       if (!user || !isLoaded) return;
+
       try {
         setLoading(true);
-        const res = await fetch('/api/profile');
+        // First, try to fetch existing profile
+        let res = await fetch('/api/profile');
         if (!res.ok) throw new Error('Failed to fetch profile');
-        const data = await res.json();
+        let data = await res.json();
+
+        // If no profile exists, create one
+        if (!data || Object.keys(data).length === 0) {
+          console.log('No profile found, creating new one for user:', user.id);
+          res = await fetch('/api/profile', {
+            method: 'PUT',
+            body: JSON.stringify({ image: '' }), // Initial empty profile
+            headers: { 'Content-Type': 'application/json' }
+          });
+          if (!res.ok) throw new Error('Failed to create profile');
+          data = await res.json();
+        }
+
         setProfile(data);
         setImage(data.image || '');
         setSocialLinks(data.socialLinks || {
           github: '',
-          email: '',
           linkedin: '',
           phone: '',
           location: ''
         });
+        // Set email from Clerk if not in profile
+        // if (!data.email && user.primaryEmailAddress) {
+        //   await updateEmail(user.primaryEmailAddress.emailAddress);
+        // }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
     };
-    fetchProfile();
+    initializeProfile();
   }, [user, isLoaded]);
 
   // Image Handler

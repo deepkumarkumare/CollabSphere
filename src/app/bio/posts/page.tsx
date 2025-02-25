@@ -15,7 +15,7 @@ const page = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!user || !isLoaded) return;
+      if (!user || !isLoaded) return; 
       try {
         setLoading(true);
         const res = await fetch('/api/profile');
@@ -58,7 +58,7 @@ const page = () => {
       const res = await fetch('/api/posts', {
         method: 'DELETE',
         body: JSON.stringify({ postId }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' } 
       });
       if (!res.ok) throw new Error('Failed to delete post');
       const updatedProfile = await res.json();
@@ -110,7 +110,12 @@ const page = () => {
             >
               Delete
             </button>
+
+
+
           </div>
+
+          
         ))}
       </section>
     </div>
