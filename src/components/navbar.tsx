@@ -34,7 +34,7 @@ export function Navbar() {
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(getMyData());
+      dispatch(getMyData()); 
     }
   }, [isAuth, dispatch]);
 

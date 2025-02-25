@@ -228,8 +228,8 @@ export default function Page() {
 
   const handleDemoLogin = async () => {
     const values: loginData = {
-      email: "ddkk6064@gmail.com",
-      password: "Deepkumar@123",
+      email: "razakhanahmad68@gmail.com",
+      password: "Akhan@12345",
     };
     handleLogin(values);
   };
@@ -246,7 +246,7 @@ export default function Page() {
 
   useEffect(() => {
     if (isAuth) {
-      router.replace("/thread");
+      router.replace("/thread"); 
     }
   }, [isAuth, router]);
 

@@ -9,9 +9,16 @@ import Post from "@/components/post/post";
 import AddPost from "@/components/add-post";
 import ProfileImage from "@/components/profile-image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { clearUserData } from "@/lib/Redux/AuthSlice";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
   const dispatch = useDispatch<typeof reduxStore.dispatch>();
+
+  const handleLogout = () => {
+    dispatch(clearUserData());
+  };
 
   const myPosts: PostType[] | null = useSelector(
     (state: RootState) => state.posts.myPosts
@@ -28,9 +35,9 @@ export default function Page() {
   const isAuth = useSelector((state: RootState) => state.auth.isAuth);
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!isAuth) {
-      router.replace("/login");
+      router.replace("/signup");
     }
   }, [isAuth, router]);
 
@@ -50,6 +57,7 @@ export default function Page() {
 
   return (
     <>
+    <Link href="/login" onClick={handleLogout}> <Button className="w-full h-2 bg-[#09090B] hover:bg-[#09090B]"></Button></Link>
       <div className="flex flex-col justify-center items-center py-4">
         <ProfileImage
           src={(myInfo && myInfo.user.photo) || ""}
