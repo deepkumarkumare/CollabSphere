@@ -3,7 +3,7 @@
 import { User } from '@/types';
 import { Card } from './ui/card';
 
-interface UserListProps {
+interface UserListProps { 
   users: User[];
   onSelectUser: (user: User) => void;
 }

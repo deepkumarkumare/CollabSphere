@@ -4,7 +4,7 @@ export interface User {
   name: string;
 }
 
-export interface Message {
+export interface Message { 
   id: string;
   sender_id: string;
   receiver_id: string;

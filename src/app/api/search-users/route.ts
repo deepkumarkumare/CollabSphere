@@ -7,7 +7,7 @@ const clerkClient: ClerkClient = createClerkClient({
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const email = searchParams.get('email');
+  const email = searchParams.get('email'); 
 
   try {
     const clerkUsers = await clerkClient.users.getUserList({

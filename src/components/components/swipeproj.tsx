@@ -17,6 +17,9 @@ import interestData from '../data/interest.json';
 import projectsData from '../data/projects.json';
 import bannerImageData from '../data/bannerImage.json';
 import profi from '../data/profileUrl.json';
+import { buttonVariants } from "@/components/ui/button"
+import Link from 'next/link';
+
 
 const Swipeproj = () => {
   const router = useRouter();
@@ -161,8 +164,10 @@ const Swipeproj = () => {
         </div>
         <CardFooter className="gap-4 justify-between p-5">
           <div className="gap-4 flex">
-            <Button variant="outline">Contact</Button>
-            <Button variant="outline">Join</Button>
+            {/* <Button variant="outline">Contact</Button> */}
+            <Link href={"/community"} className={buttonVariants({ variant: "outline" })}>Contact</Link>
+            <Link href={"/community"} className={buttonVariants({ variant: "outline" })}>Join</Link>
+            {/* <Button variant="outline">Join</Button> */}
           </div>
           <Button variant="outline" onClick={handleSkip}>
             Skip
