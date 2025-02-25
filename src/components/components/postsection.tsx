@@ -36,10 +36,7 @@ export const Feature5 = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            
-          </div> */}
+          
 
           {profile?.posts?.map((post: any) => (
             
@@ -53,22 +50,7 @@ export const Feature5 = () => {
             
           </div>
           ))}
-          {/* <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="bg-muted rounded-md aspect-video mb-2"></div>
-            
-          </div> */}
+          
         </div>
       </div>
     </div>

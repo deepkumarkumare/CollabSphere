@@ -166,7 +166,7 @@ const Swipeproj = () => {
           <div className="gap-4 flex">
             {/* <Button variant="outline">Contact</Button> */}
             <Link href={"/community"} className={buttonVariants({ variant: "outline" })}>Contact</Link>
-            <Link href={"/community"} className={buttonVariants({ variant: "outline" })}>Join</Link>
+            <Link href={"/search-profiles"} className={buttonVariants({ variant: "outline" })}>Join</Link>
             {/* <Button variant="outline">Join</Button> */}
           </div>
           <Button variant="outline" onClick={handleSkip}>
